@@ -66,7 +66,7 @@ function map(us) {
 }
 
 window.addEventListener('DOMContentLoaded', async (event) => {
-    const res = await fetch(`http://localhost:3030/states-albers-10m.json`)
+    const res = await fetch(`./states-albers-10m.json`)
     const mapJson = await res.json()
     map(mapJson)
 
