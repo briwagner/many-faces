@@ -14,17 +14,17 @@ function map(us) {
     path = d3.geoPath()
 
     const points = [
-        {"long": -87.95, "lat": 42.28, "city": "Chicago", "names": "Brian W."},
-        {"long": -77.05, "lat": 38.93, "city": "D.C.", "names": "Leah"},
-        {"long": -84.39, "lat": 33.76, "city": "Atlanta", "names": "Chris"},
-        {"long": -118.49, "lat": 34.00, "city": "Los Angeles", "names": "Yuriy"},
-        {"long": -122.66, "lat": 45.63, "xAdjust": 100, "city": "Vancouver", "names": "David W., Jared, Eric, Jim, Josh, Zach"},
-        {"long": -105.00, "lat": 39.75, "xAdjust": 40, "city": "Denver", "names": "JD, Kristyn"},
-        {"long": -111.96, "lat": 41.24, "city": "Salt Lake area", "names": "Brenden"},
-        {"long": -82.41, "lat": 27.97, "city": "Tampa", "names": "Yergeny"},
-        {"long": -81.51, "lat": 30.37, "city": "Jacksonville", "names": "Jere"},
-        {"long": -111.60, "lat": 40.16, "city": "Provo", "names": "Dallin, Joel"},
-        {"long": -115.14, "lat": 36.19, "city": "Las Vegas", "names": "Jonathan"},
+        {"id": 1, "long": -87.95, "lat": 42.28, "city": "Chicago", "names": "Brian W."},
+        {"id": 2, "long": -77.05, "lat": 38.93, "city": "D.C.", "names": "Leah"},
+        {"id": 3, "long": -84.39, "lat": 33.76, "city": "Atlanta", "names": "Chris"},
+        {"id": 4, "long": -118.49, "lat": 34.00, "city": "Los Angeles", "names": "Yuriy"},
+        {"id": 5, "long": -122.66, "lat": 45.63, "xAdjust": 100, "city": "Vancouver", "names": "David W., Jared, Eric, Jim, Josh, Zach"},
+        {"id": 6, "long": -105.00, "lat": 39.75, "xAdjust": 40, "city": "Denver", "names": "JD, Kristyn"},
+        {"id": 7, "long": -111.96, "lat": 41.24, "city": "Salt Lake area", "names": "Brenden"},
+        {"id": 8, "long": -82.41, "lat": 27.97, "city": "Tampa", "names": "Yergeny"},
+        {"id": 9, "long": -81.51, "lat": 30.37, "city": "Jacksonville", "names": "Jere"},
+        {"id": 10, "long": -111.60, "lat": 40.16, "city": "Provo", "names": "Dallin, Joel"},
+        {"id": 11, "long": -115.14, "lat": 36.19, "city": "Las Vegas", "names": "Jonathan"},
     ];
 
     const statesBackground = svg
@@ -48,13 +48,19 @@ function map(us) {
 
     const cities = stateCapitalElements.append('g')
         .attr('transform', (d) => {return `translate(${projection([d.long, d.lat]).join(",")})`})
-        
-        cities.append('circle')
+
+    cities.append('circle')
         .attr('r', 6)
         .attr('fill', 'red')
+
+    // Hover trigger, must be on top of colored-circle to avoid triggering mouseout in the center.
+    cities.append('circle')
+        .attr('r', 12)
+        .attr('fill', 'transparent')
         .attr('class', 'city-labels')
         .attr('data-tooltip-text', (d) => {return d.city})
         .attr('data-pos', (d) => {return projection([d.long, d.lat]).join(",")})
+        .attr('data-itemID', (d) => {return d.id})
 
     cities.append('text')
         .attr('text-anchor', 'middle')
@@ -79,14 +85,21 @@ window.addEventListener('DOMContentLoaded', async (event) => {
             const tt = document.createElementNS("http://www.w3.org/2000/svg", 'text');
 
             tt.textContent =  evt.target.dataset.tooltipText
-            tt.setAttribute('transform', 'translate(5 20)')
+            tt.setAttribute('transform', 'translate(-5 20)')
             tt.setAttribute('fill', '#333')
             tt.setAttribute('font-style', 'italic')
+            tt.setAttribute('text-anchor', 'end')
 
+            let itemID = 'city-marker-' + evt.target.dataset.itemID;
             ttg.setAttribute('transform', `translate(${evt.target.dataset.pos})`)
+            ttg.setAttribute('id', itemID)
 
             ttg.appendChild(tt)
             mapSvg.appendChild(ttg)
-        }, {once: true})
+
+            evt.target.addEventListener('mouseout', function(evt) {
+                document.getElementById(itemID).remove()
+            }, {once: true})
+        }, {once: false})
     }
   });
