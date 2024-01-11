@@ -7,3 +7,20 @@ body {
     width: 975px;
     height: 610px;
 }
+
+#button-selector {
+    border: 1px solid #999;
+    padding: 1em;
+    max-width: 975px;
+}
+
+#button-selector button {
+    border: 1px solid transparent;
+    background-color: #999;
+    padding: 0.5em;
+}
+
+#button-selector button.active {
+    background-color: red;
+    color: white;
+}
