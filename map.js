@@ -10,7 +10,7 @@ const adtech = [
     {"id": 9, "long": -81.51, "lat": 30.37, "city": "Jacksonville", "names": "Jere"},
     {"id": 10, "long": -111.60, "lat": 40.16, "city": "Provo", "names": "Joel"},
     {"id": 11, "long": -115.14, "lat": 36.19, "city": "Las Vegas", "names": "Jonathan"},
-    {"id": 12, "long": -84, "lat": 26, "city": "Argentina", "names": "Marcos Nelson"},
+    {"id": 12, "long": -84, "lat": 26, "city": "Argentina", "names": "Marcos"},
     {"id": 13, "long": -117.17, "lat": 32.79, "city": "San Diego", "names": "Austin"},
 ];
 
